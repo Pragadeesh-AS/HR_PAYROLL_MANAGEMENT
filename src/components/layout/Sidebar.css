@@ -1,0 +1,118 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 73px;
+  height: calc(100vh - 73px);
+  width: 260px;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-gray-200);
+  transition: width var(--transition-base);
+  z-index: var(--z-fixed);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-collapsed {
+  width: 80px;
+}
+
+.sidebar-content {
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  color: var(--color-gray-700);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.sidebar-item:hover {
+  background: var(--color-gray-50);
+  color: var(--color-primary);
+}
+
+.sidebar-item-active {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  color: white;
+}
+
+.sidebar-item-active:hover {
+  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-dark),
+    var(--color-secondary)
+  );
+}
+
+.sidebar-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.sidebar-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-collapsed .sidebar-label {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-item {
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.sidebar-toggle {
+  position: absolute;
+  right: -12px;
+  top: var(--space-6);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-gray-600);
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+}
