@@ -37,45 +37,8 @@ api.interceptors.response.use(
   },
 );
 
-// Mock Data Services (replace with actual API calls later)
+// Mock Data Services (for Attendance, Leave, Payroll)
 export const mockData = {
-  employees: [
-    {
-      id: 1,
-      empId: "EMP001",
-      name: "Pragadeesh",
-      email: "pragadeesh@company.com",
-      phone: "6264606598",
-      department: "IT",
-      position: "Software Engineer",
-      joinDate: "2026-02-13",
-      salary: {
-        basic: 50000,
-        allowances: 10000,
-        deductions: 5000,
-      },
-      status: "active",
-    },
-    {
-      id: 2,
-      empId: "EMP002",
-      name: "Nawas",
-      email: "nawas@company.com",
-      phone: "9095512345",
-      department: "HR",
-      position: "HR Manager",
-      joinDate: "2022-06-10",
-      salary: {
-        basic: 60000,
-        allowances: 12000,
-        deductions: 6000,
-      },
-      status: "active",
-    },
-  ],
-
-  attendance: [],
-
   leaves: [
     {
       id: 1,
@@ -90,7 +53,6 @@ export const mockData = {
       appliedOn: "2026-02-15",
     },
   ],
-
   payroll: [
     {
       id: 1,
@@ -107,110 +69,41 @@ export const mockData = {
   ],
 };
 
-// API Services
+// Auth Services
+export const authService = {
+  login: (credentials) => api.post("/auth/login", credentials),
+  register: (userData) => api.post("/auth/register", userData),
+  changePassword: (data) => api.put("/auth/change-password", data),
+};
+
+// Employee API Services
 export const employeeService = {
-  getAll: async () => {
-    // Mock implementation
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({ data: mockData.employees }), 500);
-    });
-  },
-
-  getById: async (id) => {
-    return new Promise((resolve) => {
-      const employee = mockData.employees.find((e) => e.id === parseInt(id));
-      setTimeout(() => resolve({ data: employee }), 300);
-    });
-  },
-
-  create: async (employeeData) => {
-    return new Promise((resolve) => {
-      const newEmployee = {
-        id: mockData.employees.length + 1,
-        empId: `EMP${String(mockData.employees.length + 1).padStart(3, "0")}`,
-        ...employeeData,
-        status: "active",
-      };
-      mockData.employees.push(newEmployee);
-      setTimeout(() => resolve({ data: newEmployee }), 500);
-    });
-  },
-
-  update: async (id, employeeData) => {
-    return new Promise((resolve) => {
-      const index = mockData.employees.findIndex((e) => e.id === parseInt(id));
-      if (index !== -1) {
-        mockData.employees[index] = {
-          ...mockData.employees[index],
-          ...employeeData,
-        };
-        setTimeout(() => resolve({ data: mockData.employees[index] }), 500);
-      }
-    });
-  },
-
-  delete: async (id) => {
-    return new Promise((resolve) => {
-      mockData.employees = mockData.employees.filter(
-        (e) => e.id !== parseInt(id),
-      );
-      setTimeout(() => resolve({ data: { message: "Employee deleted" } }), 300);
-    });
-  },
+  getAll: () => api.get("/employees"),
+  getById: (id) => api.get(`/employees/${id}`),
+  create: (employeeData) => api.post("/employees", employeeData),
+  update: (id, employeeData) => api.put(`/employees/${id}`, employeeData),
+  delete: (id) => api.delete(`/employees/${id}`),
 };
 
 export const attendanceService = {
-  getByEmployee: async (employeeId, month) => {
-    // Mock implementation - filter by employee and month
-    return new Promise((resolve) => {
-      const filteredAttendance = mockData.attendance.filter(
-        (att) =>
-          att.employeeId === parseInt(employeeId) &&
-          (!month || att.month === month),
-      );
-      setTimeout(() => resolve({ data: filteredAttendance }), 300);
-    });
-  },
-
-  mark: async (attendanceData) => {
-    return new Promise((resolve) => {
-      mockData.attendance.push(attendanceData);
-      setTimeout(() => resolve({ data: attendanceData }), 300);
-    });
-  },
+  getByEmployee: () => api.get("/attendance/me"),
+  getAll: () => api.get("/attendance"),
+  mark: () => api.post("/attendance/mark"),
 };
 
 export const leaveService = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({ data: mockData.leaves }), 300);
-    });
-  },
-
-  apply: async (leaveData) => {
-    return new Promise((resolve) => {
-      const newLeave = {
-        id: mockData.leaves.length + 1,
-        ...leaveData,
-        status: "pending",
-        appliedOn: new Date().toISOString().split("T")[0],
-      };
-      mockData.leaves.push(newLeave);
-      setTimeout(() => resolve({ data: newLeave }), 500);
-    });
-  },
-
-  updateStatus: async (id, status, comments) => {
-    return new Promise((resolve) => {
-      const leave = mockData.leaves.find((l) => l.id === parseInt(id));
-      if (leave) {
-        leave.status = status;
-        leave.comments = comments;
-        setTimeout(() => resolve({ data: leave }), 300);
-      }
-    });
-  },
+  getByEmployee: () => api.get("/leaves/me"),
+  getAll: () => api.get("/leaves"),
+  apply: (leaveData) => api.post("/leaves", leaveData),
+  updateStatus: (id, status, comments) => api.put(`/leaves/${id}/status`, { status, comments }),
 };
+
+export const settingsService = {
+  getSettings: () => api.get("/settings"),
+  updateSettings: (settingsData) => api.put("/settings", settingsData),
+};
+
+
 
 export const payrollService = {
   getAll: async () => {
@@ -221,9 +114,7 @@ export const payrollService = {
 
   generate: async (employeeId, month) => {
     return new Promise((resolve) => {
-      const employee = mockData.employees.find(
-        (e) => e.id === parseInt(employeeId),
-      );
+      const employee = { id: employeeId, name: "Employee", salary: { basic: 50000, allowances: 10000, deductions: 5000 } }; // Mocked fallback
       if (employee) {
         const payslip = {
           id: mockData.payroll.length + 1,

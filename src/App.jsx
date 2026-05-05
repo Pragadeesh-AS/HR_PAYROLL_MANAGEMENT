@@ -4,12 +4,23 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import DashboardLayout from "./components/layout/DashboardLayout";
 
-// Auth Pages entirely removed
+// Auth Pages
+// Auth Pages
+import Login from "./pages/auth/Login";
+// Register page removed for security
 
 // Dashboards
 import AdminDashboard from "./pages/dashboards/AdminDashboard";
 import HRDashboard from "./pages/dashboards/HRDashboard";
 import EmployeeDashboard from "./pages/dashboards/EmployeeDashboard";
+
+// Feature Pages
+import EmployeeList from "./pages/employees/EmployeeList";
+import AttendanceDashboard from "./pages/attendance/AttendanceDashboard";
+import LeaveDashboard from "./pages/leave/LeaveDashboard";
+import Profile from "./pages/profile/Profile";
+import PayrollDashboard from "./pages/payroll/PayrollDashboard";
+import ReportsDashboard from "./pages/reports/ReportsDashboard";
 
 // Placeholder components for future pages
 const ComingSoon = ({ title }) => (
@@ -26,7 +37,10 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Routes - Removed */}
+          {/* Public Routes */}
+          {/* Public Routes */}
+          <Route path="/login" element={<Login />} />
+          {/* /register route removed for security */}
 
           {/* Protected Routes - Admin */}
           <Route
@@ -41,24 +55,18 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route
               path="employees"
-              element={<ComingSoon title="Employee Management" />}
+              element={<EmployeeList />}
             />
             <Route
               path="attendance"
-              element={<ComingSoon title="Attendance Management" />}
+              element={<AttendanceDashboard />}
             />
             <Route
               path="leave"
-              element={<ComingSoon title="Leave Management" />}
+              element={<LeaveDashboard />}
             />
-            <Route
-              path="payroll"
-              element={<ComingSoon title="Payroll Management" />}
-            />
-            <Route
-              path="reports"
-              element={<ComingSoon title="Reports & Analytics" />}
-            />
+            <Route path="payroll" element={<PayrollDashboard />} />
+            <Route path="reports" element={<ReportsDashboard />} />
             <Route path="settings" element={<ComingSoon title="Settings" />} />
           </Route>
 
@@ -75,17 +83,17 @@ function App() {
             <Route path="dashboard" element={<HRDashboard />} />
             <Route
               path="employees"
-              element={<ComingSoon title="Employee Management" />}
+              element={<EmployeeList />}
             />
             <Route
               path="attendance"
-              element={<ComingSoon title="Attendance" />}
+              element={<AttendanceDashboard />}
             />
             <Route
               path="leave"
-              element={<ComingSoon title="Leave Requests" />}
+              element={<LeaveDashboard />}
             />
-            <Route path="payroll" element={<ComingSoon title="Payroll" />} />
+            <Route path="payroll" element={<PayrollDashboard />} />
           </Route>
 
           {/* Protected Routes - Employee */}
@@ -104,13 +112,13 @@ function App() {
             <Route path="dashboard" element={<EmployeeDashboard />} />
             <Route
               path="attendance"
-              element={<ComingSoon title="My Attendance" />}
+              element={<AttendanceDashboard />}
             />
             <Route
               path="leave"
-              element={<ComingSoon title="Leave Management" />}
+              element={<LeaveDashboard />}
             />
-            <Route path="payslips" element={<ComingSoon title="Payslips" />} />
+            <Route path="payslips" element={<PayrollDashboard />} />
           </Route>
 
           {/* Profile Route - All authenticated users */}
@@ -122,7 +130,7 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<ComingSoon title="My Profile" />} />
+            <Route index element={<Profile />} />
           </Route>
 
           {/* Error Routes */}
@@ -140,7 +148,7 @@ function App() {
           />
 
           {/* Default Route */}
-          <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route
             path="*"
             element={

@@ -139,10 +139,26 @@ const HRDashboard = () => {
                       </p>
                     </div>
                     <div className="leave-actions">
-                      <button className="btn-approve">
+                      <button 
+                        className="btn-approve"
+                        onClick={async () => {
+                          try {
+                            await leaveService.updateStatus(leave.id, "Approved", "");
+                            loadDashboardData();
+                          } catch (err) { alert("Failed to approve"); }
+                        }}
+                      >
                         <FiCheckCircle /> Approve
                       </button>
-                      <button className="btn-reject">
+                      <button 
+                        className="btn-reject"
+                        onClick={async () => {
+                          try {
+                            await leaveService.updateStatus(leave.id, "Rejected", "");
+                            loadDashboardData();
+                          } catch (err) { alert("Failed to reject"); }
+                        }}
+                      >
                         <FiXCircle /> Reject
                       </button>
                     </div>
@@ -159,15 +175,15 @@ const HRDashboard = () => {
           </CardHeader>
           <CardBody>
             <div className="quick-actions">
-              <button className="action-btn">
+              <button className="action-btn" onClick={() => window.location.href = '/hr/employees'}>
                 <FiUsers />
                 <span>Add Employee</span>
               </button>
-              <button className="action-btn">
+              <button className="action-btn" onClick={() => window.location.href = '/hr/attendance'}>
                 <FiClock />
                 <span>Mark Attendance</span>
               </button>
-              <button className="action-btn">
+              <button className="action-btn" onClick={() => window.location.href = '/hr/leave'}>
                 <FiCalendar />
                 <span>View All Leaves</span>
               </button>

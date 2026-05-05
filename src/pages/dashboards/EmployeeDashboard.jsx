@@ -1,17 +1,41 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContextDefinition";
 import Card, { CardHeader, CardBody } from "../../components/common/Card";
 import { FiCalendar, FiClock, FiDollarSign, FiFileText } from "react-icons/fi";
+import { leaveService } from "../../services/api";
 import "./Dashboard.css";
 
 const EmployeeDashboard = () => {
   const { user } = useContext(AuthContext);
-  const [stats] = useState({
-    leaveBalance: 18,
-    leaveTaken: 6,
+  const [stats, setStats] = useState({
+    leaveBalance: 24, // Assuming 24 days total allowance
+    leaveTaken: 0,
     presentDays: 22,
     absentDays: 2,
   });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const leavesRes = await leaveService.getByEmployee();
+        const leaves = leavesRes.data;
+        
+        // Sum all 'Approved' leave days
+        const approvedDays = leaves
+          .filter(l => l.status.toLowerCase() === 'approved')
+          .reduce((sum, l) => sum + (l.days || 0), 0);
+
+        setStats(prev => ({
+          ...prev,
+          leaveTaken: approvedDays,
+          leaveBalance: 24 - approvedDays
+        }));
+      } catch (err) {
+        console.error("Failed to load real stats", err);
+      }
+    };
+    fetchStats();
+  }, []);
 
   const statCards = [
     {

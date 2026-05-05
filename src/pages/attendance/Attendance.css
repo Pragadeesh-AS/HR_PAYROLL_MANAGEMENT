@@ -1,0 +1,128 @@
+.attendance-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.attendance-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.attendance-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.clock-card {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 32px;
+}
+
+.clock-time {
+  font-size: 48px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.clock-date {
+  color: #6b7280;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.clock-status {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.clock-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.clock-btn {
+  padding: 16px 48px;
+  font-size: 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  color: white;
+}
+
+.clock-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-clock-in {
+  background-color: #10b981;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.btn-clock-in:hover:not(:disabled) {
+  background-color: #059669;
+  transform: translateY(-2px);
+}
+
+.btn-clock-out {
+  background-color: #ef4444;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+.btn-clock-out:hover:not(:disabled) {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-Present {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-Late {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-Absent {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-Half-day {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+[class*="status-Present - Left Early"], [class*="status-Late - Left Early"] {
+  background-color: #fce7f3;
+  color: #9d174d;
+}
